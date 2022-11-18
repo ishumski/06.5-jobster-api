@@ -9,6 +9,18 @@ const UserSchema = new mongoose.Schema({
     maxlength: 50,
     minlength: 3,
   },
+  lastName: {
+    type: String,
+    trim: true,
+    maxlength: 20,
+    default: 'lastName'
+  },
+  location: {
+    type: String,
+    trim: true,
+    maxlength: 20,
+    default: 'my city'
+  },
   email: {
     type: String,
     required: [true, 'Please provide email'],
@@ -22,7 +34,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide password'],
     minlength: 6,
-  },
+  }
 })
 
 UserSchema.pre('save', async function () {
@@ -32,11 +44,11 @@ UserSchema.pre('save', async function () {
 
 UserSchema.methods.createJWT = function () {
   return jwt.sign(
-    { userId: this._id, name: this.name },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: process.env.JWT_LIFETIME,
-    }
+      {userId: this._id, name: this.name},
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.JWT_LIFETIME,
+      }
   )
 }
 
